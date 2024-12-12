@@ -1,0 +1,41 @@
+.history {
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 600px;
+  
+  }
+  
+  .history h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .history table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .history table th,
+  .history table td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    
+  }
+  
+  .history table th {
+    background: #f1f1f1;
+  }
+  
+  .history table tr:hover {
+    background: #f9f9f9;
+  }
+  
+
+  .delete-data{
+    color: #ff3333;
+    font-size: 20px;
+    cursor: pointer;
+  }
