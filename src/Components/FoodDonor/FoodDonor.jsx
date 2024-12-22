@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./FoodDonor.css";
 
-const FoodDonor = ({ setHistoryData }) => {
+const FoodDonor = () => {
   const [donorName, setDonorName] = useState("");
   const [foodType, setFoodType] = useState("");
   const [quantity, setQuantity] = useState("");
@@ -18,6 +18,7 @@ const FoodDonor = ({ setHistoryData }) => {
       foodType,
       quantity,
       date: new Date().toLocaleDateString(),
+      status: "Pending", // Add status for pending donations
     };
 
     setProducts((prevProducts) => [...prevProducts, newProduct]); // Add product to local list
@@ -25,7 +26,7 @@ const FoodDonor = ({ setHistoryData }) => {
     setQuantity("");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!donorName) {
@@ -47,15 +48,34 @@ const FoodDonor = ({ setHistoryData }) => {
               foodType,
               quantity,
               date: new Date().toLocaleDateString(),
+              status: "Pending", // Add status for pending donations
             },
           ];
 
-    setHistoryData((prevData) => [...prevData, ...finalProducts]); // Add all to history
-    setProducts([]); // Clear local list
-    setDonorName("");
-    setFoodType("");
-    setQuantity("");
-    alert("Donation(s) added successfully!");
+    try {
+      // Send data to the backend
+      const response = await fetch("http://localhost:8800/donations", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(finalProducts),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit donations");
+      }
+
+      alert("Donation(s) added successfully!");
+
+      setProducts([]); // Clear local list
+      setDonorName("");
+      setFoodType("");
+      setQuantity("");
+    } catch (error) {
+      console.error("Error submitting donations:", error);
+      alert("Error submitting donations.");
+    }
   };
 
   return (

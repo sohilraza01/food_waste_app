@@ -27,7 +27,7 @@ const Sidebar = ({ historyData, setHistoryData }) => {
   const handleLogout = () => {
     // localStorage.removeItem("currentUser");  // Clear current user
     // setHistoryData([]);                      // Clear history data
-    window.location.href = "http://localhost:3000/login/";
+    window.location.href = "http://localhost:3000/";
   };
 
   return (

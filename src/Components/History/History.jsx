@@ -1,7 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./History.css";
 
-const History = ({ historyData }) => {
+const History = () => {
+  const [historyData, setHistoryData] = useState([]);
+
+  useEffect(() => {
+    const fetchHistoryData = async () => {
+      try {
+        const response = await fetch("http://localhost:8800/donations"); // API endpoint for fetching donations
+        if (!response.ok) {
+          throw new Error("Failed to fetch donation history.");
+        }
+        const data = await response.json();
+        setHistoryData(data);
+      } catch (error) {
+        console.error("Error fetching donation history:", error);
+        setHistoryData([]); // Ensure there's no stale data
+      }
+    };
+
+    fetchHistoryData();
+  }, []); // Fetch data once when the component mounts
+
   return (
     <div className="history">
       <h2>Donation History</h2>
@@ -20,7 +40,7 @@ const History = ({ historyData }) => {
           <tbody>
             {historyData.map((item, index) => (
               <tr key={index}>
-                <td>{item.donorName}</td>
+                <td>{item.donorName || item.donor}</td> {/* Adjusted for backend field names */}
                 <td>{item.foodType}</td>
                 <td>{item.quantity}</td>
                 <td>{item.date}</td>
